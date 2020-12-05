@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateQuestion {
+public class questionDTO {
 
     @ApiModelProperty(example = "A + B")
     @NotBlank

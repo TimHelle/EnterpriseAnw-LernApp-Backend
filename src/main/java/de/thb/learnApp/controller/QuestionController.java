@@ -1,6 +1,6 @@
 package de.thb.learnApp.controller;
 
-import de.thb.learnApp.dto.CreateQuestion;
+import de.thb.learnApp.dto.questionDTO;
 import de.thb.learnApp.model.Question;
 import de.thb.learnApp.service.QuestionService;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public List<Question> getQuestions() {
+    public @ResponseBody List<Question> getQuestions() {
         return questionService.getQuestions();
     }
 
@@ -31,18 +31,18 @@ public class QuestionController {
 
     @PostMapping("/questions")
     @ResponseStatus(HttpStatus.CREATED)
-    public Question saveQuestions(@Valid @RequestBody CreateQuestion createQuestion) {
+    public Question saveQuestions(@Valid @RequestBody questionDTO questionDTO) {
         Question question = new Question();
-        question.setText(createQuestion.getText());
-        question.setExplanation(createQuestion.getExplanation());
+        question.setText(questionDTO.getText());
+        question.setExplanation(questionDTO.getExplanation());
         return questionService.saveQuestion(question);
     }
 
     @PutMapping("/questions/{id}")
-    public Question updateUser(@RequestBody CreateQuestion createQuestion, @PathVariable Long id) {
+    public Question updateQuestion(@RequestBody questionDTO questionDTO, @PathVariable Long id) {
         Question question = questionService.getQuestion(id);
-        question.setText(createQuestion.getText());
-        question.setExplanation(createQuestion.getExplanation());
+        question.setText(questionDTO.getText());
+        question.setExplanation(questionDTO.getExplanation());
         return questionService.saveQuestion(question);
     }
 

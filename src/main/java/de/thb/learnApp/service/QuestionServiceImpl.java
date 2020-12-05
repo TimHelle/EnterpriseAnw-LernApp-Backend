@@ -20,7 +20,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> getQuestions() {
         List<Question> questions = new ArrayList<>();
-        questionRepository.findAll().forEach(u -> questions.add(u));
+        questionRepository.findAll().forEach(questions::add);
         return questions;
     }
 
