@@ -22,7 +22,9 @@ docker run -d -p 3306:3306 --name=docker-mysql \
   --env="MYSQL_PASSWORD=secret" \
   --env="MYSQL_DATABASE=test" \
   mysql:8.0
-  ```
+```
   
 test:
+```
 $ curl -X GET "http://localhost:8080/api/questions"
+```
