@@ -1,9 +1,13 @@
 # EnterpriseAnw-LernApp-Backend
 Das Backend für das LernApp-Projekt für Enterprise Anwendungen
 
-### Installation
+### Table of Contents:  
+TODO
 
-### Runing
+### Installation:
+TODO
+
+### How to run the project:
 
 Build the project:
 ```
