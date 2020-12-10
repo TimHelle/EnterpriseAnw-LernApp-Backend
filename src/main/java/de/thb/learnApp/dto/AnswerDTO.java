@@ -10,15 +10,13 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class questionDTO {
-
-    @ApiModelProperty(example = "A + B")
+public class AnswerDTO {
+    @ApiModelProperty(example = "A")
     @NotBlank
     private String text;
 
-    @ApiModelProperty(example = "sum of", position = 2)
     @NotBlank
-    private String explanation;
+    private boolean isCorrect;
 
     public String getText() {
         return text;
@@ -28,11 +26,11 @@ public class questionDTO {
         this.text = text;
     }
 
-    public String getExplanation() {
-        return explanation;
+    public boolean isCorrect() {
+        return isCorrect;
     }
 
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
     }
 }

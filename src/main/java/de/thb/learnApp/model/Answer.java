@@ -22,6 +22,10 @@ public class Answer {
     @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NotNull
+    @NotBlank
     private String text;
+    @NotNull
+    @NotBlank
     private boolean isCorrect;
 }
