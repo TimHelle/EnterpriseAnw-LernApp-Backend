@@ -1,5 +1,4 @@
 package de.thb.learnApp.model;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,13 +18,46 @@ import javax.validation.constraints.NotNull;
 public class Answer {
     @Id
     @NotNull
-    @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotNull
     @NotBlank
     private String text;
     @NotNull
-    @NotBlank
     private boolean isCorrect;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Question question;
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean getIsCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
+    }
 }

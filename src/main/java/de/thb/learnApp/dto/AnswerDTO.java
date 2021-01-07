@@ -1,22 +1,34 @@
 package de.thb.learnApp.dto;
 
+import de.thb.learnApp.model.Question;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerDTO {
-    @ApiModelProperty(example = "A")
     @NotBlank
     private String text;
-
-    @NotBlank
+    @NotNull
     private boolean isCorrect;
+    @NotNull
+    private Question question;
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 
     public String getText() {
         return text;
@@ -26,7 +38,7 @@ public class AnswerDTO {
         this.text = text;
     }
 
-    public boolean isCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 

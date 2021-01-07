@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,19 +15,15 @@ import javax.validation.constraints.NotNull;
 public class Question {
     @Id
     @NotNull
-    @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+    @NotBlank
     @NotNull
     private String text;
     private String explanation;
 
-    //@ElementCollection
-    //private List<Integer> categories = new ArrayList<>();
-
-    //@ElementCollection
-    //private List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Answer> answers = new ArrayList<>();
 
     public String getText() {
         return text;
@@ -35,6 +33,14 @@ public class Question {
         this.text = text;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getExplanation() {
         return explanation;
     }
@@ -42,4 +48,16 @@ public class Question {
     public void setExplanation(String explanation) {
         this.explanation = explanation;
     }
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+
+        for(Answer a : answers) {
+            a.setQuestion(this);
+        }
+    }
+
 }

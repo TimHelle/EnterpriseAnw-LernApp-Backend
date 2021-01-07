@@ -1,9 +1,10 @@
 package de.thb.learnApp.controller;
 
 import de.thb.learnApp.model.Question;
+import de.thb.learnApp.model.Answer;
 import de.thb.learnApp.service.QuestionService;
+import de.thb.learnApp.service.AnswerService;
 import org.junit.jupiter.api.Test;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,18 +40,28 @@ class QuestionControllerTest {
         Question q1 = new Question();
         q1.setText("A+B");
         q1.setExplanation("Test");
+        Answer a1 = new Answer();
+        a1.setText("A+B");
+        Answer a2 = new Answer();
+        a2.setText("AB");
+        a1.setCorrect(true);
+        a2.setCorrect(false);
+        a1.setQuestion(q1);
+        a2.setQuestion(q1);
+        List<Answer> answers = q1.getAnswers();
+        q1.setAnswers(answers);
+
 
         questions.add(q1);
 
         when(questionService.getQuestions()).thenReturn(questions);
-
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/questions"))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk()
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("[{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\"}]"))
+                                string(containsString("[{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[]}]"))
                 );
     }
 
@@ -58,7 +69,7 @@ class QuestionControllerTest {
     public void testCreateQuestion() throws Exception {
         List<Question> questions = new ArrayList<>();
 
-        when(questionService.saveQuestion(any(Question.class))).then((Answer<Question>) invocation -> {
+        when(questionService.saveQuestion(any(Question.class))).then(invocation -> {
             Question q = invocation.getArgument(0, Question.class);
             questions.add(q);
             return q;
@@ -67,14 +78,14 @@ class QuestionControllerTest {
         this.mockMvc.perform(
                     MockMvcRequestBuilders.post("/api/questions")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"text\":\"A+B\",\"explanation\":\"Test\"}")
+                            .content("{\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[]}")
                 )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated()
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\"}"))
+                                string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[]}"))
                 );
 
         assertEquals("A+B", questions.get(0).getText());
