@@ -31,7 +31,7 @@ public class AnswerController {
         return answerService.getAnswers(id);
     }
 
-    @RequestMapping("/answers")
+    @PostMapping("/answers")
     @ResponseStatus(HttpStatus.CREATED)
     public Answer saveAnswers(@RequestBody @Valid AnswerDTO answerDTO) {
         Answer answer = new Answer();

@@ -75,13 +75,13 @@ class AnswerControllerTest {
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/answers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":null}")
+                        .content("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\",\"answers\":[]}}")
         )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":null}"))
+                                string(containsString("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\",\"answers\":[]}}"))
                 );
 
         assertEquals("A", answers.get(0).getText());
