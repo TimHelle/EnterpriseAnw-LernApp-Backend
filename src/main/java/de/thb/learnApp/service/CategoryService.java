@@ -11,8 +11,8 @@ public interface CategoryService {
 
     List<Category> getCategory();
 
-    Category saveCategory(Category question);
+    Category saveCategory(Category category);
 
-    void deleteCategory(Category question);
+    void deleteCategory(Category category);
 }
 

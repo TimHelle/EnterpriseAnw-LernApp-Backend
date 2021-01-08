@@ -4,13 +4,12 @@ import de.thb.learnApp.dto.CategoryDTO;
 import de.thb.learnApp.model.Category;
 import de.thb.learnApp.service.CategoryService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class CategoryController {
     private final CategoryService categoryService;

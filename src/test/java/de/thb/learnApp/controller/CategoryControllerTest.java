@@ -80,10 +80,10 @@ public class CategoryControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"description\":\"Addition\",\"title\":\"Math\",\"questions\":[]}"))
+                                string(containsString("{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\",\"questions\":[]}"))
                 );
 
         assertEquals("Math", categories.get(0).getTitle());
-        //assertEquals("Addition", categories.get(0).getDescription());
+        assertEquals("Addition", categories.get(0).getDescription());
     }
 }
