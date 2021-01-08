@@ -1,38 +1,39 @@
 package de.thb.learnApp.model;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Builder
-@ToString
 public class Category {
     @Id
     @NotNull
-    @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @NotNull
+
     @NotBlank
     private String description;
-    @NotNull
+
     @NotBlank
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@JoinColumn(name = "question_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Question question;
+    @OneToMany(mappedBy = "category")
+    private List<Question> questions = new ArrayList<>();
 
-    public Question getQuestion() {
-        return question;
+    public List<Question> getQuestions() {
+        return questions;
+    }
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+
+        for(Question q : questions) {
+            q.setCategory(this);
+        }
     }
 
     public long getId() {
@@ -53,9 +54,5 @@ public class Category {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
     }
 }

@@ -4,16 +4,11 @@ import de.thb.learnApp.model.Answer;
 import de.thb.learnApp.model.Question;
 import de.thb.learnApp.service.AnswerService;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -58,7 +53,8 @@ class AnswerControllerTest {
                         MockMvcResultMatchers.content().
                                 string(containsString("[{\"id\":0,\"text\":\"3\",\"isCorrect\":true," +
                                         "\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\"," +
-                                        "\"answers\":[]}}]"))
+                                        "\"answers\":[]," +
+                                        "\"category\":null}}]"))
                 );
     }
 
@@ -75,13 +71,17 @@ class AnswerControllerTest {
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/answers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\",\"answers\":[]}}")
+                        .content("{\"id\":0,\"text\":\"A\",\"isCorrect\":true," +
+                                "\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\"," +
+                                "\"answers\":[]}}")
         )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\",\"answers\":[]}}"))
+                                string(containsString("{\"id\":0,\"text\":\"A\",\"isCorrect\":true," +
+                                        "\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\"," +
+                                        "\"answers\":[],\"category\":null}}"))
                 );
 
         assertEquals("A", answers.get(0).getText());

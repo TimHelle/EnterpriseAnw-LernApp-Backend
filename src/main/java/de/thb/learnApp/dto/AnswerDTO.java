@@ -34,15 +34,7 @@ public class AnswerDTO {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public boolean getIsCorrect() {
         return isCorrect;
-    }
-
-    public void setCorrect(boolean correct) {
-        isCorrect = correct;
     }
 }

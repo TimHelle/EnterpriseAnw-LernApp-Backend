@@ -25,6 +25,17 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
+    @ManyToOne
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public String getText() {
         return text;
     }
@@ -48,6 +59,7 @@ public class Question {
     public void setExplanation(String explanation) {
         this.explanation = explanation;
     }
+
     public List<Answer> getAnswers() {
         return answers;
     }
@@ -59,5 +71,4 @@ public class Question {
             a.setQuestion(this);
         }
     }
-
 }

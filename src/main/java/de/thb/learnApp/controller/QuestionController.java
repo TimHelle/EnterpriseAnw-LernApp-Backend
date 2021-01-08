@@ -35,6 +35,7 @@ public class QuestionController {
         Question question = new Question();
         question.setText(questionDTO.getText());
         question.setExplanation(questionDTO.getExplanation());
+        question.setCategory(questionDTO.getCategory());
         return questionService.saveQuestion(question);
     }
 

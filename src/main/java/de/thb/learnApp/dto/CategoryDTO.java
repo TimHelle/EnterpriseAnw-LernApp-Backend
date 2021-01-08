@@ -8,13 +8,15 @@ import lombok.AllArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDTO {
 
-    @ApiModelProperty(example = "Category Math")
+    @ApiModelProperty(example = "Category Math", position = 2)
     @NotBlank
     private String description;
 
@@ -23,29 +25,17 @@ public class CategoryDTO {
     private String title;
 
     @NotNull
-    private Question question;
+    private List<Question> questions = new ArrayList<>();
 
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

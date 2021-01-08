@@ -61,7 +61,7 @@ class QuestionControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("[{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[]}]"))
+                                string(containsString("[{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[],\"category\":null}]"))
                 );
     }
 
@@ -78,14 +78,14 @@ class QuestionControllerTest {
         this.mockMvc.perform(
                     MockMvcRequestBuilders.post("/api/questions")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[]}")
+                            .content("{\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[],\"category\":null}}")
                 )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated()
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[]}"))
+                                string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[],\"category\":null}"))
                 );
 
         assertEquals("A+B", questions.get(0).getText());

@@ -35,7 +35,6 @@ public class AnswerController {
     @ResponseStatus(HttpStatus.CREATED)
     public Answer saveAnswers(@RequestBody @Valid AnswerDTO answerDTO) {
         Answer answer = new Answer();
-        //TODO exception question does not exists
         answer.setText(answerDTO.getText());
         answer.setCorrect(answerDTO.getIsCorrect());
         answer.setQuestion(answerDTO.getQuestion());

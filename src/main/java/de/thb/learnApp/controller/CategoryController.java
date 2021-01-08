@@ -19,13 +19,13 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/category")
+    @GetMapping("/categories")
     public @ResponseBody
     List<Category> getCategory() {
         return categoryService.getCategory();
     }
 
-    @GetMapping("/category/{id}")
+    @GetMapping("/categories/{id}")
     public Category getCategory(@PathVariable Long id) {
         return categoryService.getCategory(id);
     }
@@ -36,7 +36,7 @@ public class CategoryController {
         Category category = new Category();
         category.setTitle(categoryDTO.getTitle());
         category.setDescription(categoryDTO.getDescription());
-        category.setQuestion(categoryDTO.getQuestion());
+        category.setQuestions(categoryDTO.getQuestions()); // TODO !
         return categoryService.saveCategory(category);
     }
 
@@ -45,7 +45,7 @@ public class CategoryController {
         Category category = categoryService.getCategory(id);
         category.setTitle(categoryDTO.getTitle());
         category.setDescription(categoryDTO.getDescription());
-        category.setQuestion(categoryDTO.getQuestion());
+        category.setQuestions(categoryDTO.getQuestions());
         return categoryService.saveCategory(category);
     }
 
