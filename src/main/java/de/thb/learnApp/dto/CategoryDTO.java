@@ -24,7 +24,6 @@ public class CategoryDTO {
     @NotBlank
     private String title;
 
-    @NotNull
     private List<Question> questions = new ArrayList<>();
 
     public List<Question> getQuestions() {

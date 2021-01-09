@@ -1,13 +1,9 @@
 package de.thb.learnApp.dto;
 
 import de.thb.learnApp.model.Question;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +15,7 @@ public class AnswerDTO {
     private String text;
     @NotNull
     private boolean isCorrect;
-    @NotNull
+
     private Question question;
 
     public Question getQuestion() {

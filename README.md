@@ -28,7 +28,13 @@ docker run -d -p 3306:3306 --name=docker-mysql \
   mysql:8.0
 ```
   
-test:
+Load the docker container with application from docker hub
 ```
-$ curl -X GET "http://localhost:8080/api/questions"
+$ docker run -d -p 9000:8080 --name=user-rest-api \
+  --network=spring-rest-network \
+  -e MYSQL_ADDR=docker-mysql \
+  olgazharikova/learn_app
 ```
+
+
+

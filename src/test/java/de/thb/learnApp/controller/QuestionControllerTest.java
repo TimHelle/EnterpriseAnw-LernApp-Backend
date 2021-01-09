@@ -3,7 +3,6 @@ package de.thb.learnApp.controller;
 import de.thb.learnApp.model.Question;
 import de.thb.learnApp.model.Answer;
 import de.thb.learnApp.service.QuestionService;
-import de.thb.learnApp.service.AnswerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

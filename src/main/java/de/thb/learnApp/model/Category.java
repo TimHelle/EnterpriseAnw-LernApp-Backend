@@ -22,7 +22,7 @@ public class Category {
     @NotBlank
     private String title;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     public List<Question> getQuestions() {
