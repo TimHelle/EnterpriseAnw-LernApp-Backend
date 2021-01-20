@@ -26,7 +26,7 @@ public class Answer {
     @NotNull
     private boolean isCorrect;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Question question;
 
     public Question getQuestion() {

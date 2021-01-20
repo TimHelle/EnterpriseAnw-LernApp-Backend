@@ -3,6 +3,9 @@ package de.thb.learnApp.controller;
 import de.thb.learnApp.model.Question;
 import de.thb.learnApp.model.Answer;
 import de.thb.learnApp.service.QuestionService;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +50,6 @@ class QuestionControllerTest {
         a2.setText("AB");
         a1.setCorrect(true);
         a2.setCorrect(false);
-        a1.setQuestion(q1);
-        a2.setQuestion(q1);
         List<Answer> answers = q1.getAnswers();
         q1.setAnswers(answers);
 
@@ -85,6 +88,45 @@ class QuestionControllerTest {
                 .andExpect(
                         MockMvcResultMatchers.content().
                                 string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[],\"category\":null}"))
+                );
+
+        assertEquals("A+B", questions.get(0).getText());
+        assertEquals("Test", questions.get(0).getExplanation());
+    }
+
+    @Test
+    public void testCreateQuestionComplex() throws Exception {
+        JSONObject input = new JSONObject();
+        input.put("text", "A+B");
+        input.put("explanation", "Test");
+        input.put("answers", new JSONArray()
+                .put(new JSONObject()
+                        .put("text", "answer1")
+                        .put("isCorrect", true))
+        );
+        input.put("category", JSONObject.NULL);
+
+        JSONObject expected = new JSONObject(input.toString());
+        expected.put("id", 0);
+
+        List<Question> questions = new ArrayList<>();
+
+        when(questionService.saveQuestion(any(Question.class))).then(invocation -> {
+            Question q = invocation.getArgument(0, Question.class);
+            questions.add(q);
+            return q;
+        });
+
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/questions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(input.toString())
+        )
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isCreated()
+                )
+                .andExpect(
+                        MockMvcResultMatchers.content().json(expected.toString())
                 );
 
         assertEquals("A+B", questions.get(0).getText());

@@ -36,7 +36,9 @@ public class QuestionController {
         question.setText(questionDTO.getText());
         question.setExplanation(questionDTO.getExplanation());
         question.setCategory(questionDTO.getCategory());
-        return questionService.saveQuestion(question);
+        question.setAnswers(questionDTO.getAnswers());
+        Question result = questionService.saveQuestion(question);
+        return result;
     }
 
     @PutMapping("/questions/{id}")

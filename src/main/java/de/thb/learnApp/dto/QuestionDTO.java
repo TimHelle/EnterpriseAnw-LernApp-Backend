@@ -1,5 +1,6 @@
 package de.thb.learnApp.dto;
 
+import de.thb.learnApp.model.Answer;
 import de.thb.learnApp.model.Category;
 import de.thb.learnApp.model.Question;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +10,8 @@ import lombok.AllArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,6 +26,8 @@ public class QuestionDTO {
     @NotBlank
     private String explanation;
 
+    private List<Answer> answers = new ArrayList<>();
+
     private Category category;
 
     public String getText() {
@@ -35,9 +40,15 @@ public class QuestionDTO {
     public Category getCategory() {
         return category;
     }
-
     public void setCategory(Category category) {
         this.category = category;
     }
 
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
 }

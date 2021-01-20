@@ -66,9 +66,5 @@ public class Question {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-
-        for(Answer a : answers) {
-            a.setQuestion(this);
-        }
     }
 }

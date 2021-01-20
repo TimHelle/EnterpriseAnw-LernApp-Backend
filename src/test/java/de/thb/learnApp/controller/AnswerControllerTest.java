@@ -79,9 +79,7 @@ class AnswerControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"text\":\"A\",\"isCorrect\":true," +
-                                        "\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\"," +
-                                        "\"answers\":[],\"category\":null}}"))
+                                json("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":null}")
                 );
 
         assertEquals("A", answers.get(0).getText());
