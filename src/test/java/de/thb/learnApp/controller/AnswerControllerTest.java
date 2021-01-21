@@ -72,8 +72,7 @@ class AnswerControllerTest {
                 MockMvcRequestBuilders.post("/api/answers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\":0,\"text\":\"A\",\"isCorrect\":true," +
-                                "\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\"," +
-                                "\"answers\":[]}}")
+                                "\"question\":null}")
         )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
