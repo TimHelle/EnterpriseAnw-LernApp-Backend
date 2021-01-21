@@ -16,8 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,11 +44,9 @@ class QuestionControllerTest {
         q1.setExplanation("Test");
         Answer a1 = new Answer();
         a1.setText("A+B");
-        Answer a2 = new Answer();
-        a2.setText("AB");
         a1.setCorrect(true);
-        a2.setCorrect(false);
-        List<Answer> answers = q1.getAnswers();
+        List<Answer> answers = new ArrayList<>();
+        answers.add(a1);
         q1.setAnswers(answers);
 
 
@@ -63,7 +59,8 @@ class QuestionControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("[{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[],\"category\":null}]"))
+                                string(containsString("[{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\"," +
+                                        "\"answers\":[{\"id\":0,\"text\":\"A+B\",\"isCorrect\":true,\"question\":null}],\"category\":null}]"))
                 );
     }
 
@@ -80,14 +77,16 @@ class QuestionControllerTest {
         this.mockMvc.perform(
                     MockMvcRequestBuilders.post("/api/questions")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[],\"category\":null}}")
+                            .content("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\"," +
+                                    "\"answers\":[{\"id\":0,\"text\":\"A+B\",\"isCorrect\":true,\"question\":null}],\"category\":null}")
                 )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated()
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\",\"answers\":[],\"category\":null}"))
+                                string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\"," +
+                                        "\"answers\":[{\"id\":0,\"text\":\"A+B\",\"isCorrect\":true,\"question\":null}],\"category\":null}"))
                 );
 
         assertEquals("A+B", questions.get(0).getText());

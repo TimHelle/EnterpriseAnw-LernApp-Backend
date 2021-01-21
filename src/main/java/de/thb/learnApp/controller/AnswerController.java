@@ -37,7 +37,7 @@ public class AnswerController {
         Answer answer = new Answer();
         answer.setText(answerDTO.getText());
         answer.setCorrect(answerDTO.getIsCorrect());
-        //answer.setQuestion(answerDTO.getQuestion());
+        answer.setQuestion(answerDTO.getQuestion());
         return answerService.saveAnswers(answer);
     }
 

@@ -22,7 +22,7 @@ public class Question {
     private String text;
     private String explanation;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
     @ManyToOne
@@ -65,6 +65,6 @@ public class Question {
     }
 
     public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+        this.answers.addAll(answers);
     }
 }
