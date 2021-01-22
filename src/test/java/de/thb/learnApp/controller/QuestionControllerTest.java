@@ -37,6 +37,7 @@ class QuestionControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
     private CategoryService categoryService;
 
     @MockBean
@@ -77,6 +78,14 @@ class QuestionControllerTest {
 
     @Test
     public void testCreateQuestion() throws Exception {
+        List<Category> categories = new ArrayList<>();
+
+        when(categoryService.saveCategory(any(Category.class))).then(invocation -> {
+            Category c = invocation.getArgument(0, Category.class);
+            categories.add(c);
+            return c;
+        });
+
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/categories")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -87,40 +96,11 @@ class QuestionControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":1,\"description\":\"Addition\",\"title\":\"Math\"}"))
+                                string(containsString("{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\"}"))
                 );
 
         List<Question> questions = new ArrayList<>();
 
-        when(questionService.saveQuestion(any(Question.class))).then(invocation -> {
-            Question q = invocation.getArgument(0, Question.class);
-            questions.add(q);
-            return q;
-        });
-
-        this.mockMvc.perform(
-                    MockMvcRequestBuilders.post("/api/questions")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content("[\"text\":\"A+B\",\"explanation\":\"Test\"," +
-                                    "\"answers\":[{\"id\":0,\"text\":\"A+B\",\"isCorrect\":true}]," +
-                                    "\"category\":{\"id\":1}]}")
-                )
-                .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isCreated()
-                )
-                .andExpect(
-                        MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\"," +
-                                        "\"answers\":[{\"id\":0,\"text\":\"A+B\",\"isCorrect\":true,\"question\":null}]," +
-                                        "\"category\":{\"id\":1,\"description\":\"Addition\",\"title\":\"Math\"}}"))
-                );
-
-        assertEquals("A+B", questions.get(0).getText());
-        assertEquals("Test", questions.get(0).getExplanation());
-    }
-
-    @Test
-    public void testCreateQuestionComplex() throws Exception {
         JSONObject input = new JSONObject();
         input.put("text", "A+B");
         input.put("explanation", "Test");
@@ -129,12 +109,11 @@ class QuestionControllerTest {
                         .put("text", "answer1")
                         .put("isCorrect", true))
         );
-        input.put("category", JSONObject.NULL);
+        input.put("category", new JSONObject()
+                .put("id", 0));
 
         JSONObject expected = new JSONObject(input.toString());
         expected.put("id", 0);
-
-        List<Question> questions = new ArrayList<>();
 
         when(questionService.saveQuestion(any(Question.class))).then(invocation -> {
             Question q = invocation.getArgument(0, Question.class);
@@ -153,6 +132,5 @@ class QuestionControllerTest {
                 .andExpect(
                         MockMvcResultMatchers.content().json(expected.toString())
                 );
-
     }
 }

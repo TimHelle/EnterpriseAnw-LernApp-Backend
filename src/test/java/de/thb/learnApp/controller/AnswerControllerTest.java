@@ -38,10 +38,6 @@ class AnswerControllerTest {
     @Test
     public void testGetAnswers() throws Exception {
         List<Answer> answers = new ArrayList<>();
-        Question q1 = new Question();
-        q1.setText("1+2");
-        q1.setExplanation("Test");
-
         Answer a1 = new Answer();
         a1.setText("3");
         a1.setCorrect(true);
@@ -54,10 +50,7 @@ class AnswerControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("[{\"id\":0,\"text\":\"3\",\"isCorrect\":true," +
-                                        "\"question\":{\"id\":0,\"text\":\"1+2\",\"explanation\":\"Test\"," +
-                                        "\"answers\":[]," +
-                                        "\"category\":null}}]"))
+                                string(containsString("[{\"id\":0,\"text\":\"3\",\"isCorrect\":true}]"))
                 );
     }
 
@@ -81,9 +74,8 @@ class AnswerControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                json("{\"id\":0,\"text\":\"A\",\"isCorrect\":true,\"question\":null}")
+                                json("{\"id\":0,\"text\":\"A\",\"isCorrect\":true}")
                 );
-
         assertEquals("A", answers.get(0).getText());
     }
 }
