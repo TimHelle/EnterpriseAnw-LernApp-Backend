@@ -37,7 +37,6 @@ public class AnswerController {
         Answer answer = new Answer();
         answer.setText(answerDTO.getText());
         answer.setCorrect(answerDTO.getIsCorrect());
-        answer.setQuestion(answerDTO.getQuestion());
         return answerService.saveAnswers(answer);
     }
 
@@ -45,7 +44,6 @@ public class AnswerController {
     public Answer updateAnswer(@RequestBody AnswerDTO answerDTO, @PathVariable Long id) {
         Answer answer = answerService.getAnswers(id);
         answer.setText(answerDTO.getText());
-        answer.setQuestion(answerDTO.getQuestion());
         answer.setCorrect(answerDTO.getIsCorrect());
         return answerService.saveAnswers(answer);
     }

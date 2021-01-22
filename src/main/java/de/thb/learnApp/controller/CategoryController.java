@@ -43,7 +43,6 @@ public class CategoryController {
         Category category = categoryService.getCategory(id);
         category.setTitle(categoryDTO.getTitle());
         category.setDescription(categoryDTO.getDescription());
-        category.setQuestions(categoryDTO.getQuestions());
         return categoryService.saveCategory(category);
     }
 

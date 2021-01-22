@@ -21,8 +21,8 @@ public class Category {
 
     @NotBlank
     private String title;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+/*
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     public List<Question> getQuestions() {
@@ -35,7 +35,7 @@ public class Category {
             q.setCategory(this);
         }
     }
-
+    */
     public long getId() {
         return id;
     }

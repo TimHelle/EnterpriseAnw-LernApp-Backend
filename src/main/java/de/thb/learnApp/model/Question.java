@@ -20,12 +20,14 @@ public class Question {
     @NotBlank
     @NotNull
     private String text;
+    @NotBlank
+    @NotNull
     private String explanation;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
 
     public Category getCategory() {

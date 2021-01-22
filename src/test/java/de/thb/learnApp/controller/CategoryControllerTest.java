@@ -1,14 +1,15 @@
 package de.thb.learnApp.controller;
 
 import de.thb.learnApp.model.Category;
-import de.thb.learnApp.model.Question;
 import de.thb.learnApp.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 public class CategoryControllerTest {
 
     @Autowired
@@ -38,25 +41,17 @@ public class CategoryControllerTest {
         Category c = new Category();
         c.setTitle("Math");
         c.setDescription("Addition");
-
-        List<Question> questions = new ArrayList<>();
-        Question q1 = new Question();
-        q1.setText("A+B");
-        q1.setExplanation("Test");
-        q1.setCategory(c);
-        questions.add(q1);
-
         categories.add(c);
 
-
         when(categoryService.getCategory()).thenReturn(categories);
+
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/categories"))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk()
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("[{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\",\"questions\":[]}]"))
+                                string(containsString("[{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\"}]"))
                 );
     }
 
@@ -80,7 +75,7 @@ public class CategoryControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\",\"questions\":[]}"))
+                                string(containsString("{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\"}"))
                 );
 
         assertEquals("Math", categories.get(0).getTitle());

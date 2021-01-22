@@ -37,18 +37,12 @@ public class QuestionDTO {
     public String getExplanation() {
         return explanation;
     }
+
     public Category getCategory() {
-        return category;
-    }
-    public void setCategory(Category category) {
-        this.category = category;
+        return this.category;
     }
 
     public List<Answer> getAnswers() {
         return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
     }
 }

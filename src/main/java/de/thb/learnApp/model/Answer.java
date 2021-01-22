@@ -26,17 +26,6 @@ public class Answer {
     @NotNull
     private boolean isCorrect;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Question question;
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
     public long getId() {
         return id;
     }
