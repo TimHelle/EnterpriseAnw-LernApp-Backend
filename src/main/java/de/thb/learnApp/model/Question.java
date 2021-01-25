@@ -15,14 +15,17 @@ import java.util.List;
 public class Question {
     @Id
     @NotNull
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotBlank
-    @NotNull
     private String text;
+
     @NotBlank
-    @NotNull
     private String explanation;
+
+    @NotBlank
+    private String hash;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
@@ -38,8 +41,8 @@ public class Question {
         this.category = category;
     }
 
-    public String getText() {
-        return text;
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
     public void setText(String text) {
@@ -54,16 +57,8 @@ public class Question {
         this.id = id;
     }
 
-    public String getExplanation() {
-        return explanation;
-    }
-
     public void setExplanation(String explanation) {
         this.explanation = explanation;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
     }
 
     public void setAnswers(List<Answer> answers) {

@@ -8,7 +8,6 @@ import de.thb.learnApp.service.QuestionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -25,7 +24,8 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public @ResponseBody List<Question> getQuestions() {
+    public @ResponseBody
+    List<Question> getQuestions() {
         return questionService.getQuestions();
     }
 
@@ -48,10 +48,9 @@ public class QuestionController {
             category = questionDTO.getCategory();
         }
         question.setCategory(category);
-
+        question.setHash(questionDTO.getHash());
         question.setAnswers(questionDTO.getAnswers());
-        Question result = questionService.saveQuestion(question);
-        return result;
+        return questionService.saveQuestion(question);
     }
 
     @PutMapping("/questions/{id}")

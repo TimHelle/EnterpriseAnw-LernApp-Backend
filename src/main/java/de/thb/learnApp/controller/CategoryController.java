@@ -35,6 +35,7 @@ public class CategoryController {
         Category category = new Category();
         category.setTitle(categoryDTO.getTitle());
         category.setDescription(categoryDTO.getDescription());
+        category.setHash(categoryDTO.getHash());
         return categoryService.saveCategory(category);
     }
 

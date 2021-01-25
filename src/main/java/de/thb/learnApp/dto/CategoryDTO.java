@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +23,13 @@ public class CategoryDTO {
     @NotBlank
     private String title;
 
+    @NotBlank
+    private String hash;
+
     private List<Question> questions = new ArrayList<>();
 
-    public List<Question> getQuestions() {
-        return questions;
+    public String getHash() {
+        return hash;
     }
 
     public String getDescription() {

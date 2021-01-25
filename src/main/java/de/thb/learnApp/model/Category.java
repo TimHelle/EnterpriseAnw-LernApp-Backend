@@ -21,21 +21,10 @@ public class Category {
 
     @NotBlank
     private String title;
-/*
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Question> questions = new ArrayList<>();
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    @NotBlank
+    private String hash;
 
-        for(Question q : questions) {
-            q.setCategory(this);
-        }
-    }
-    */
     public long getId() {
         return id;
     }
@@ -54,5 +43,13 @@ public class Category {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }
