@@ -1,8 +1,10 @@
 package de.thb.learnApp.controller;
 
 import de.thb.learnApp.model.Answer;
+import de.thb.learnApp.model.Category;
 import de.thb.learnApp.model.Question;
 import de.thb.learnApp.service.AnswerService;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -58,6 +60,13 @@ class AnswerControllerTest {
     public void testCreateAnswers() throws Exception {
         List<Answer> answers = new ArrayList<>();
 
+        JSONObject input = new JSONObject();
+        input.put("text", "5");
+        input.put("isCorrect", true);
+
+        JSONObject expected = new JSONObject(input.toString());
+        expected.put("id", 0);
+
         when(answerService.saveAnswers(any(Answer.class))).then(invocation -> {
             Answer a = invocation.getArgument(0, Answer.class);
             answers.add(a);
@@ -67,15 +76,13 @@ class AnswerControllerTest {
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/answers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":0,\"text\":\"A\",\"isCorrect\":true," +
-                                "\"question\":null}")
+                        .content(input.toString())
         )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                json("{\"id\":0,\"text\":\"A\",\"isCorrect\":true}")
+                                json(expected.toString())
                 );
-        assertEquals("A", answers.get(0).getText());
     }
 }

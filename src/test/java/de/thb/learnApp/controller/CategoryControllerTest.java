@@ -1,7 +1,10 @@
 package de.thb.learnApp.controller;
 
 import de.thb.learnApp.model.Category;
+import de.thb.learnApp.model.Question;
 import de.thb.learnApp.service.CategoryService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.in;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -41,6 +45,7 @@ public class CategoryControllerTest {
         Category c = new Category();
         c.setTitle("Math");
         c.setDescription("Addition");
+        c.setHash("%&CWGBJ113FJ1H!");
         categories.add(c);
 
         when(categoryService.getCategory()).thenReturn(categories);
@@ -51,13 +56,22 @@ public class CategoryControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("[{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\"}]"))
+                                string(containsString("[{\"id\":0,\"description\":\"Addition\"," +
+                                        "\"title\":\"Math\",\"hash\":\"%&CWGBJ113FJ1H!\"}]"))
                 );
     }
 
     @Test
     public void testCreateCategory() throws Exception {
         List<Category> categories = new ArrayList<>();
+
+        JSONObject input = new JSONObject();
+        input.put("title", "Math");
+        input.put("description", "Addition");
+        input.put("hash", "CWGBJ$$,113FJ1H");
+
+        JSONObject expected = new JSONObject(input.toString());
+        expected.put("id", 0);
 
         when(categoryService.saveCategory(any(Category.class))).then(invocation -> {
             Category c = invocation.getArgument(0, Category.class);
@@ -68,17 +82,15 @@ public class CategoryControllerTest {
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/categories")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"description\":\"Addition\",\"title\":\"Math\"}")
-        )
+                        .content(input.toString())
+                )
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isCreated()
+                .andExpect(
+                        MockMvcResultMatchers.status().isCreated()
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\"}"))
+                                json(expected.toString())
                 );
-
-        assertEquals("Math", categories.get(0).getTitle());
-        assertEquals("Addition", categories.get(0).getDescription());
     }
 }

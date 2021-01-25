@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -50,6 +49,7 @@ class QuestionControllerTest {
         Question q1 = new Question();
         q1.setText("A+B");
         q1.setExplanation("Test");
+        q1.setHash("DVwdgtw%s&");
         Answer a1 = new Answer();
         a1.setText("A+B");
         a1.setCorrect(true);
@@ -58,6 +58,7 @@ class QuestionControllerTest {
         Category c1 = new Category();
         c1.setDescription("Addition of two letters");
         c1.setTitle("Addition");
+        c1.setHash("%/sdvgwwRRss&");
         q1.setCategory(c1);
         q1.setAnswers(answers);
 
@@ -70,15 +71,25 @@ class QuestionControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("[{\"id\":0,\"text\":\"A+B\",\"explanation\":\"Test\"," +
+                                string(containsString("[{\"id\":0,\"text\":\"A+B\"," +
+                                            "\"explanation\":\"Test\",\"hash\":\"DVwdgtw%s&\"," +
                                         "\"answers\":[{\"id\":0,\"text\":\"A+B\",\"isCorrect\":true}]," +
-                                        "\"category\":{\"id\":0,\"description\":\"Addition of two letters\",\"title\":\"Addition\"}}]"))
+                                        "\"category\":{\"id\":0,\"description\":\"Addition of two letters\"," +
+                                            "\"title\":\"Addition\",\"hash\":\"%/sdvgwwRRss&\"}}]"))
                 );
     }
 
     @Test
     public void testCreateQuestion() throws Exception {
         List<Category> categories = new ArrayList<>();
+
+        JSONObject inputCat = new JSONObject();
+        inputCat.put("title", "Math");
+        inputCat.put("description", "Addition");
+        inputCat.put("hash", "CWGBJ$$,113FJ1H");
+
+        JSONObject expectedCategory = new JSONObject(inputCat.toString());
+        expectedCategory.put("id", 0);
 
         when(categoryService.saveCategory(any(Category.class))).then(invocation -> {
             Category c = invocation.getArgument(0, Category.class);
@@ -89,31 +100,34 @@ class QuestionControllerTest {
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/categories")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"description\":\"Addition\",\"title\":\"Math\"}")
+                        .content(inputCat.toString())
         )
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isCreated()
+                .andExpect(
+                        MockMvcResultMatchers.status().isCreated()
                 )
                 .andExpect(
                         MockMvcResultMatchers.content().
-                                string(containsString("{\"id\":0,\"description\":\"Addition\",\"title\":\"Math\"}"))
+                                json(expectedCategory.toString())
                 );
 
         List<Question> questions = new ArrayList<>();
 
-        JSONObject input = new JSONObject();
-        input.put("text", "A+B");
-        input.put("explanation", "Test");
-        input.put("answers", new JSONArray()
+        JSONObject inputQuestion = new JSONObject();
+        inputQuestion.put("text", "A+B");
+        inputQuestion.put("explanation", "Test");
+        inputQuestion.put("hash", "HDVVSsvgd$$s//vdsg");
+        inputQuestion.put("answers", new JSONArray()
                 .put(new JSONObject()
                         .put("text", "answer1")
                         .put("isCorrect", true))
         );
-        input.put("category", new JSONObject()
+        inputQuestion.put("category", new JSONObject()
                 .put("id", 0));
 
-        JSONObject expected = new JSONObject(input.toString());
-        expected.put("id", 0);
+
+        JSONObject expectedQuestion = new JSONObject(inputQuestion.toString());
+        expectedQuestion.put("id", 0);
 
         when(questionService.saveQuestion(any(Question.class))).then(invocation -> {
             Question q = invocation.getArgument(0, Question.class);
@@ -124,13 +138,13 @@ class QuestionControllerTest {
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/questions")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(input.toString())
+                        .content(inputQuestion.toString())
         )
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isCreated()
                 )
                 .andExpect(
-                        MockMvcResultMatchers.content().json(expected.toString())
+                        MockMvcResultMatchers.content().json(expectedQuestion.toString())
                 );
     }
 }
