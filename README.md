@@ -3,7 +3,7 @@ The Backend is one of three components for LearnApp-application.
 
 ### How to run the project:
 
-1. Download the code or run docker container with application from docker hub (uses mysql docker as input! -> execute step 4 first):
+1. Download the code or *run docker container with application from docker hub (uses mysql docker as input! -> execute step 4 first):
 ```
 $ docker run -d -p 9000:8080 --name=user-rest-api \
   --network=spring-rest-network \
