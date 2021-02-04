@@ -1,6 +1,6 @@
 # LernApp-Backend 
 The Backend is one of three components for LearnApp-application. 
-- [Frontend of the applicatio](https://github.com/TimHelle/EnterpriseAnw-LernApp-Frontend)
+- [Frontend of the application](https://github.com/TimHelle/EnterpriseAnw-LernApp-Frontend)
 - [Admin page as a third component of the application](https://github.com/TimHelle/EnterpriseAnw-LernApp-Adminseite)
 
 ### How to run the project:
